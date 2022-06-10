@@ -15,6 +15,7 @@ db = client['Dbms']
 
 conn = ms.connect(host="sql6.freemysqlhosting.net", user="sql6497487",
                   password="X85HAWMFMi", database="sql6497487")
+
 cur = conn.cursor()
 
 username = None
@@ -34,7 +35,10 @@ def get(food_name):
 
 def username_unique(username):
     Users = db.Users
-    req_doc = Users.find_one({"c_id": f"{username}"})
+    req_doc = Users.find_one(
+        {"c_id": f"{username}"}
+        )
+    return (req_doc is None)
     # unq = True
     # query = f"SELECT f_name FROM customer WHERE c_id = '{username}'"
     # cur = conn.cursor(buffered=True)
@@ -46,7 +50,6 @@ def username_unique(username):
     #     unq = True
     # else:
     #     unq = False
-    return (req_doc is None)
 
 
 def authenticate(username, password):
@@ -187,11 +190,11 @@ def show_food(hotelId, hotel, Location):
     y = st.button('Place Order')
 
     # FOr backend order is a dict of order,quantity
-    st.write(order)
     if y:
         res = place_order(order, Total, hotelId)
         if res[0] == True:
             st.success(f'Order placed 🤩. Delivery Agent: {res[1]}')
+            st.balloons()
         else:
             st.error('Order Failed 😔')
     else:
